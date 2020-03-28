@@ -3,7 +3,7 @@ class CurrenciesController < ApplicationController
   
   def index
     @currencies = Currency.all
-    render json: @currencies
+    paginate json: @currencies
   end
 
   def show
