@@ -7,6 +7,7 @@ class CurrenciesController < ApplicationController
   end
 
   def show
+    
     render json: @currency
   end
 

@@ -11,11 +11,11 @@ class ApplicationController < ActionController::API
   private
 
   def record_not_found(exc)
-    render json: { error: "record not found" }, status: :not_found
+    render json: { error: "Record not found" }, status: :not_found
   end
 
   def not_authorized
-    render json: { error: "Not authorized" }, status: :forbidden
+    render json: { error: "Not Authorized" }, status: :forbidden
   end
 
   def authorization
