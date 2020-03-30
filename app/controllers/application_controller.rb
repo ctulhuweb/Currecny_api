@@ -19,7 +19,6 @@ class ApplicationController < ActionController::API
   end
 
   def authorization
-    p request.headers["Authorization"]
     if request.headers["Authorization"].present?
       token = request.headers["Authorization"].split(" ")[1]
       raise ApplicationController::NotAuthorized unless token == "E76dyVeBAiFuudXTYVt4zQXB"
