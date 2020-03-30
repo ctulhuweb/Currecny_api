@@ -1,8 +1,7 @@
 namespace :currencies do
   desc "updates rate of currencies"
   task :update => :environment do
-    res = RestClient.get("http://www.cbr.ru/scripts/XML_daily.asp")
-    curs = Hash.from_xml(res)["ValCurs"]["Valute"]
+    curs = LoadCurrencies.call(url: "http://www.cbr.ru/scripts/XML_daily.asp")
     curs.each do |c|
       cur = Currency.find_by_name(c["Name"])
       if cur.present?
@@ -13,8 +12,7 @@ namespace :currencies do
   
   desc "creates currencies"
   task :create => :environment do
-    res = RestClient.get("http://www.cbr.ru/scripts/XML_daily.asp")
-    curs = Hash.from_xml(res)["ValCurs"]["Valute"]
+    curs = LoadCurrencies.call(url: "http://www.cbr.ru/scripts/XML_daily.asp")
     curs.each do |c|
       cur = Currency.find_by_name(c["Name"])
       if cur.blank?
