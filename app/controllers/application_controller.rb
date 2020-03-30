@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::API
-  before_action :authorization
+  before_action :authenticate_request
 
-  AUTHORIZATION_TOKEN = "E76dyVeBAiFuudXTYVt4zQXB"
-  
   NotAuthorized = Class.new(StandardError)
   
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
@@ -15,14 +13,11 @@ class ApplicationController < ActionController::API
   end
 
   def not_authorized
-    render json: { error: "Not Authorized" }, status: :forbidden
+    render json: { error: "Not Authorized" }, status: :unauthorized
   end
 
-  def authorization
-    if request.headers["Authorization"].present?
-      token = request.headers["Authorization"].split(" ")[1]
-      raise ApplicationController::NotAuthorized unless token == "E76dyVeBAiFuudXTYVt4zQXB"
-    else
+  def authenticate_request
+    unless AuthorizeApiRequest.call(request.headers)
       raise ApplicationController::NotAuthorized
     end
   end
